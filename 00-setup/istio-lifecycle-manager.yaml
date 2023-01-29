@@ -1,0 +1,23 @@
+---
+apiVersion: admin.gloo.solo.io/v2
+kind: IstioLifecycleManager
+metadata:
+  name: istio
+  namespace: gloo-mesh
+spec:
+  installations:
+    - clusters:
+      - name: cluster1
+        defaultRevision: true
+      - name: cluster2
+        defaultRevision: true
+      revision: 1-16
+      istioOperatorSpec:
+        profile: minimal
+        hub: us-docker.pkg.dev/gloo-mesh/istio-workshops
+        tag: 1.16.0-solo
+        namespace: istio-system
+        components:
+          ingressGateways:
+          - name: istio-ingressgateway
+            enabled: false

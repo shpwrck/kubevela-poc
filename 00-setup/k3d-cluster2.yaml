@@ -1,0 +1,28 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: cluster2
+image: docker.io/rancher/k3s:v1.23.16-k3s1
+network: gloo-mesh-network
+options:
+  k3d:
+    wait: true
+    timeout: "60s"
+    disableLoadbalancer: false
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+    nodeLabels:
+      - label: topology.kubernetes.io/region=us-west-2
+        nodeFilters:
+          - agent:*
+          - server:*
+      - label: topology.kubernetes.io/zone=us-west-2c
+        nodeFilters:
+          - agent:*
+          - server:*
+  kubeconfig:
+    updateDefaultKubeconfig: false
+    switchCurrentContext: false
