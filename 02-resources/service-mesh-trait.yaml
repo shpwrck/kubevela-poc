@@ -1,0 +1,14 @@
+apiVersion: core.oam.dev/v1beta1
+kind: TraitDefinition
+metadata:
+  annotations:
+    definition.oam.dev/description: Include this component in the service mesh.
+  name: service-mesh
+  namespace: vela-system
+spec:
+  appliesToWorkloads:
+  - '*'
+  podDisruptive: true
+  schematic:
+    cue:
+      template: "// +patchStrategy=jsonMergePatch\npatch: {\n\tif parameter.enabled == true {\n\t\tmetadata: labels: {\n\t\t\t\"sidecar.istio.io/inject\": \"true\"\n\t\t}\n\t}\n\tif parameter.enabled == false {\n\t\tmetadata: labels: {\n\t\t\t\"sidecar.istio.io/inject\": \"false\"\n\t\t}\n\t}\t\n\tif context.output.spec != _|_ {\n\t\tif parameter.enabled == true {\n\t\t\tspec: template:\n\t\t\tmetadata: labels: {\n\t\t\t\t\"sidecar.istio.io/inject\": \"true\"\n\t\t\t}\n\t\t}\n\t\tif parameter.enabled == false {\n\t\t\tspec: template:\n\t\t\tmetadata: labels: {\n\t\t\t\t\"sidecar.istio.io/inject\": \"true\"\n\t\t\t}\t\t\n\t\t}\n\t}\n}\nparameter:\n{\n\tenabled: *true | bool\n}\n"

@@ -1,7 +1,7 @@
 apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
-  name: basic-topology
+  name: nginx 
   namespace: default
 spec:
   components:
@@ -9,9 +9,12 @@ spec:
       type: webservice
       properties:
         image: nginx
-      traits: []
+      traits: 
+      - type: service-mesh 
+        properties:
+          enabled: true
   policies:
-    - name: topology
+    - name: all
       type: topology
       properties:
         clusters: ["cluster1", "cluster2"]

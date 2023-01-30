@@ -19,5 +19,12 @@ Setup:
 
 Kubevela Install:
 ```bash
+# Still incomplete
 ./01-kubevela/deploy.sh
+```
+
+Add Example Service to Mesh
+```bash
+KUBECONFIG=~/.k3d/kubeconfig-mgmt.yaml kubectl apply -f ./02-resources/service-mesh-trait.yaml
+KUBECONFIG=~/.k3d/kubeconfig-mgmt.yaml kubectl apply -f ./02-resources/application.yaml
 ```
