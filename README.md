@@ -38,3 +38,5 @@ KUBECONFIG=~/.k3d/kubeconfig-mgmt.yaml kubectl apply -f 02-resources/orig/mgmt/
 KUBECONFIG=~/.k3d/kubeconfig-cluster1.yaml kubectl apply -f 02-resources/orig/cluster1/
 KUBECONFIG=~/.k3d/kubeconfig-cluster2.yaml kubectl apply -f 02-resources/orig/cluster2/
 ```
+
+You can test the application in a browser [here]](http://localhost:8080)
