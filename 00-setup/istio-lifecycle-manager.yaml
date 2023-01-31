@@ -17,6 +17,17 @@ spec:
         hub: us-docker.pkg.dev/gloo-mesh/istio-workshops
         tag: 1.16.0-solo
         namespace: istio-system
+        meshConfig:
+          enableTracing: true
+          defaultConfig:
+            tracing:
+              sampling: 10
+              custom_tags:
+                my_tag_header:
+                  header:
+                    name: host
+              zipkin:
+                 address: zipkin:9411        
         components:
           ingressGateways:
           - name: istio-ingressgateway

@@ -19,6 +19,11 @@ MGMT=$(k3d kubeconfig write mgmt)
 CLUSTER1=$(k3d kubeconfig write cluster1)
 CLUSTER2=$(k3d kubeconfig write cluster2)
 
+# Rename Contexts
+KUBECONFIG=$(k3d kubeconfig write mgmt) kubectl config rename-context k3d-mgmt mgmt
+KUBECONFIG=$(k3d kubeconfig write cluster1) kubectl config rename-context k3d-cluster1 cluster1
+KUBECONFIG=$(k3d kubeconfig write cluster2) kubectl config rename-context k3d-cluster2 cluster1
+
 #Install Gloo Mesh Management Plane
 helm upgrade --install gloo-mesh-enterprise gloo-mesh-enterprise/gloo-mesh-enterprise \
   --version=${GLOO_PLATFORM_VERSION} \
@@ -27,6 +32,8 @@ helm upgrade --install gloo-mesh-enterprise gloo-mesh-enterprise/gloo-mesh-enter
   --set glooMeshUi.serviceOverrides.spec.ports[0].name=console \
   --set glooMeshUi.serviceOverrides.spec.ports[0].port=80 \
   --set glooMeshUi.serviceOverrides.spec.ports[0].targetPort=8090 \
+  --set legacyMetricsPipeline.enabled=false \
+  --set metricsgateway.enabled=true \
   --kubeconfig ${MGMT} \
   --namespace gloo-mesh \
   --create-namespace \
@@ -76,6 +83,8 @@ do
     --set relay.serverAddress=${MGMT_SERVER_NETWORKING_ADDRESS} \
     --set cluster=$(echo $cluster | grep -o 'cluster.') \
     --set relay.tokenSecret.name=relay-identity-token-secret \
+    --set metricscollector.enabled=true \
+    --set metricscollector.config.exporters.otlp.endpoint=172.19.0.3:4317 \
     --version ${GLOO_PLATFORM_VERSION} \
     --wait
 done

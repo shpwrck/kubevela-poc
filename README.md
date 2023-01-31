@@ -14,12 +14,13 @@ __Optional__: istioctl, meshctl, k9s
 
 Setup:
 ```bash
+# Takes approximately 4min on my 8by32 WSL2 instance
 ./00-setup/deploy.sh
 ```
 
 Kubevela Install:
 ```bash
-# Still incomplete
+# Takes approximately 6min on my 8by32 WSL2 instance
 ./01-kubevela/deploy.sh
 ```
 
