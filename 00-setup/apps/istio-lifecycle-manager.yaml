@@ -18,16 +18,14 @@ spec:
         tag: 1.16.0-solo
         namespace: istio-system
         meshConfig:
-          enableTracing: true
           defaultConfig:
-            tracing:
-              sampling: 10
-              custom_tags:
-                my_tag_header:
-                  header:
-                    name: host
-              zipkin:
-                 address: zipkin:9411        
+            proxyMetadata:
+              ISTIO_META_DNS_CAPTURE: "true"
+              ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+        values:
+          global:
+            proxy:
+              privileged: true
         components:
           ingressGateways:
           - name: istio-ingressgateway

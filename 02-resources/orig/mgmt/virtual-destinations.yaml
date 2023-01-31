@@ -1,0 +1,119 @@
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualDestination
+metadata:
+  name: checkout
+  namespace: gloo-mesh
+spec:
+  hosts:
+  - checkout.backend-apis-team.solo-io.mesh
+  services:
+  - labels:
+      app: checkoutservice
+  ports:
+  - number: 80
+    protocol: GRPC
+    targetPort:
+      name: grpc
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualDestination
+metadata:
+  name: currency
+  namespace: gloo-mesh
+spec:
+  hosts:
+  - currency.backend-apis-team.solo-io.mesh
+  services:
+  - labels:
+      app: currencyservice
+  ports:
+  - number: 80
+    protocol: GRPC
+    targetPort:
+      name: grpc
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualDestination
+metadata:
+  name: product-catalog
+  namespace: gloo-mesh
+spec:
+  hosts:
+  - productcatalog.backend-apis-team.solo-io.mesh
+  services:
+  - labels:
+      app: productcatalogservice
+  ports:
+  - number: 80
+    protocol: GRPC
+    targetPort:
+      name: grpc
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualDestination
+metadata:
+  name: shipping
+  namespace: gloo-mesh
+spec:
+  hosts:
+  - shipping.backend-apis-team.solo-io.mesh
+  services:
+  - labels:
+      app: shippingservice
+  ports:
+  - number: 80
+    protocol: GRPC
+    targetPort:
+      name: grpc
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualDestination
+metadata:
+  name: cart
+  namespace: gloo-mesh
+spec:
+  hosts:
+  - cart.backend-apis-team.solo-io.mesh
+  services:
+  - labels:
+      app: cartservice
+  ports:
+  - number: 80
+    protocol: GRPC
+    targetPort:
+      name: grpc
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualDestination
+metadata:
+  name: ads
+  namespace: gloo-mesh
+spec:
+  hosts:
+  - ads.backend-apis-team.solo-io.mesh
+  services:
+  - labels:
+      app: adservice
+  ports:
+  - number: 80
+    protocol: GRPC
+    targetPort:
+      name: grpc
+---
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualDestination
+metadata:
+  name: recommendations
+  namespace: gloo-mesh
+spec:
+  hosts:
+  - recommendations.backend-apis-team.solo-io.mesh
+  services:
+  - labels:
+      app: recommendationservice
+  ports:
+  - number: 80
+    protocol: GRPC
+    targetPort:
+      name: grpc

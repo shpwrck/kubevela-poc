@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
-GLOO_PLATFORM_VERSION=v2.2.0
+GLOO_PLATFORM_VERSION=v2.2.1
 
 # Cleanup any previous runs
 k3d cluster delete --all
@@ -10,9 +10,9 @@ fi
 
 # Create Infrastructure
 docker network create gloo-mesh-network
-k3d cluster create --config ./00-setup/k3d-mgmt.yaml
-k3d cluster create --config ./00-setup/k3d-cluster1.yaml
-k3d cluster create --config ./00-setup/k3d-cluster2.yaml
+k3d cluster create --config ./00-setup/infra/k3d-mgmt.yaml
+k3d cluster create --config ./00-setup/infra/k3d-cluster1.yaml
+k3d cluster create --config ./00-setup/infra/k3d-cluster2.yaml
 
 # Write KUBECONFIGs
 MGMT=$(k3d kubeconfig write mgmt)
@@ -22,12 +22,18 @@ CLUSTER2=$(k3d kubeconfig write cluster2)
 # Rename Contexts
 KUBECONFIG=$(k3d kubeconfig write mgmt) kubectl config rename-context k3d-mgmt mgmt
 KUBECONFIG=$(k3d kubeconfig write cluster1) kubectl config rename-context k3d-cluster1 cluster1
-KUBECONFIG=$(k3d kubeconfig write cluster2) kubectl config rename-context k3d-cluster2 cluster1
+KUBECONFIG=$(k3d kubeconfig write cluster2) kubectl config rename-context k3d-cluster2 cluster2
+
+# Add Helm Repos
+helm repo add gloo-mesh-enterprise https://storage.googleapis.com/gloo-mesh-enterprise/gloo-mesh-enterprise
+helm repo add gloo-mesh-agent https://storage.googleapis.com/gloo-mesh-enterprise/gloo-mesh-agent
+helm repo update
 
 #Install Gloo Mesh Management Plane
 helm upgrade --install gloo-mesh-enterprise gloo-mesh-enterprise/gloo-mesh-enterprise \
   --version=${GLOO_PLATFORM_VERSION} \
   --set licenseKey=${GLOO_MESH_LICENSE_KEY} \
+  --set global.cluster=mgmt \
   --set glooMeshUi.serviceType=LoadBalancer \
   --set glooMeshUi.serviceOverrides.spec.ports[0].name=console \
   --set glooMeshUi.serviceOverrides.spec.ports[0].port=80 \
@@ -90,8 +96,7 @@ do
 done
 
 # Install Istio and Gloo Mesh Resources
-kubectl --kubeconfig ${MGMT} apply -f ./00-setup/istio-lifecycle-manager.yaml
-kubectl --kubeconfig ${MGMT} apply -f ./00-setup/gloo-mesh-workspace.yaml
+kubectl --kubeconfig ${MGMT} apply -f ./00-setup/apps/
 
 # PRINT KUBECONFIG COMMAND
 echo "KUBECONFIG=$MGMT:$CLUSTER1:$CLUSTER2 k9s"
