@@ -1,0 +1,16 @@
+apiVersion: networking.gloo.solo.io/v2
+kind: ExternalService
+metadata:
+  name: httpbin-dot-org
+  namespace: default
+spec:
+  addresses:
+  - 52.1.93.201
+  - 34.224.50.110
+  - 34.205.150.168
+  - 52.200.117.68
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+  selector: {}

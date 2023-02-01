@@ -1,0 +1,24 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ComponentDefinition
+metadata:
+  name: workspacesettings
+  namespace: vela-system
+spec:
+  schematic:
+    cue:
+      template: "output: {\n\tapiVersion: \"admin.gloo.solo.io/v2\"\n\tkind:       \"WorkspaceSettings\"\n\tmetadata:
+        {\n\t\tname:      \"default\"\n\t\tnamespace: \"default\"\n\t}\n\tspec: {\n\t\texportTo:
+        [{\n\t\t\tresources:  parameter.exportTo.resources\n\t\t\tworkspaces: parameter.exportTo.workspaces\n\t\t}]\n\t\timportFrom:
+        [{\n\t\t\tresources:  parameter.importFrom.resources\n\t\t\tworkspaces: parameter.importFrom.workspaces\n\t\t}]\n\t\toptions:
+        {\n\t\t\teastWestGateways: [{\n\t\t\t\tselector: name: parameter.eastWestGateways.selector.name\n\t\t\t}]\n\t\t\tfederation:
+        enabled: parameter.federation.enabled\n\t\t\tserviceIsolation: {\n\t\t\t\tenabled:
+        \        parameter.serviceIsolation.enabled\n\t\t\t\ttrimProxyConfig: parameter.serviceIsolation.trimProxyConfig\n\t\t\t}\n\t\t}\n\t}\n}\noutputs:
+        {}\nparameter: {\n\texportTo: resources: [...{}]\n\tworkspaces: [...{}]\n\timportFrom:
+        resources: [...{}]\n\tworkspaces: [...{}]\n\teastWestGateways: selector: [...{}]\n\tfederation:
+        enabled:       *false | bool\n\tserviceIsolation: enabled: *true | bool\n\ttrimProxyConfig:
+        *true | bool\n}\n"
+  workload:
+    definition:
+      apiVersion: admin.gloo.solo.io/v2
+      kind: WorkspaceSettings
+    type: workspacesettings.admin.gloo.solo.io

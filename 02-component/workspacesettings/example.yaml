@@ -1,0 +1,21 @@
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: default
+  namespace: default
+spec:
+  exportTo:
+    - workspaces:
+      - name: "*"
+  importFrom:
+    - workspaces:
+      - name: "*"
+  options:
+    federation:
+      enabled: false
+    eastWestGateways:
+    - selector:
+        name: "*"
+    serviceIsolation:
+      enabled: true
+      trimProxyConfig: true

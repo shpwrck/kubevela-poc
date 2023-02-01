@@ -1,0 +1,22 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ComponentDefinition
+metadata:
+  name: externalservice
+  namespace: vela-system
+spec:
+  schematic:
+    cue:
+      template: "output: {\n\tapiVersion: \"networking.gloo.solo.io/v2\"\n\tkind:
+        \      \"ExternalService\"\n\tmetadata: {\n\t\tname:      context.name\n\t\tnamespace:
+        context.namespace\n\t}\n\tspec: {\n\t\tif parameter[\"addresses\"] != _|_
+        {\n\t\t\taddresses: parameter.addresses\n\t\t}\n\t\tif parameter[\"hosts\"]
+        != _|_ {\n\t\t\thosts: parameter.hosts\n\t\t}\n\t\tports:    parameter.ports\n\t\tselector:
+        parameter.selector\n\t}\n}\noutputs: {}\nparameter: {\n\thosts?: [...string]\n\taddresses?:
+        [...string]\n\tports: [\n\t\t{\n\t\t\tname:     string\n\t\t\tnumber:   int\n\t\t\tprotocol:
+        string\n\t\t\ttargetPort?: {\n\t\t\t\tname:   string\n\t\t\t\tnumber: int\n\t\t\t}\n\t\t},\n\t]\n\tselector:
+        {...}\n}\n"
+  workload:
+    definition:
+      apiVersion: networking.gloo.solo.io/v2
+      kind: ExternalService
+    type: externalservices.networking.gloo.solo.io

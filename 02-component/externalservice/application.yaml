@@ -1,0 +1,15 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: httpbin-dot-org
+spec:
+  components:
+    - name: httpbin-dot-org
+      type: externalservice
+      properties:
+        hosts:
+        - "httpbin.org"
+        ports:
+          - name: http
+            number: 80
+            protocol: HTTP

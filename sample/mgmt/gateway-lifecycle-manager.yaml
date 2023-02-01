@@ -47,8 +47,9 @@ spec:
   installations:
     - clusters:
       - name: cluster1
-        activeGateway: false
+        activeGateway: true
       gatewayRevision: 1-16
+      controlPlaneRevision: 1-16
       istioOperatorSpec:
         profile: empty
         hub: us-docker.pkg.dev/gloo-mesh/istio-workshops
@@ -83,8 +84,9 @@ spec:
   installations:
     - clusters:
       - name: cluster2
-        activeGateway: false
+        activeGateway: true
       gatewayRevision: 1-16
+      controlPlaneRevision: 1-16
       istioOperatorSpec:
         profile: empty
         hub: us-docker.pkg.dev/gloo-mesh/istio-workshops

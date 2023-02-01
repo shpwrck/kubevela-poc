@@ -24,6 +24,20 @@ Kubevela Install:
 ./01-kubevela/deploy.sh
 ```
 
+## Approaches
+
+### Naive Approach
+
+Apply Resource Wrappers
+```bash
+for dir in ./02-component/*/;
+do 
+  KUBECONFIG=~/.k3d/kubeconfig-mgmt.yaml kubectl apply -f ${dir}component.yaml
+done
+```
+
+### Informed Approach
+
 Add Example Service to Mesh
 ```bash
 KUBECONFIG=~/.k3d/kubeconfig-mgmt.yaml kubectl apply -f ./02-resources/service-mesh-trait.yaml
@@ -34,9 +48,9 @@ KUBECONFIG=~/.k3d/kubeconfig-mgmt.yaml kubectl apply -f ./02-resources/applicati
 
 To deploy the example application with gloo mesh resources:
 ```bash
-KUBECONFIG=~/.k3d/kubeconfig-mgmt.yaml kubectl apply -f 02-resources/orig/mgmt/
-KUBECONFIG=~/.k3d/kubeconfig-cluster1.yaml kubectl apply -f 02-resources/orig/cluster1/
-KUBECONFIG=~/.k3d/kubeconfig-cluster2.yaml kubectl apply -f 02-resources/orig/cluster2/
+KUBECONFIG=~/.k3d/kubeconfig-mgmt.yaml kubectl apply -f sample/orig/mgmt/
+KUBECONFIG=~/.k3d/kubeconfig-cluster1.yaml kubectl apply -f sample/orig/cluster1/
+KUBECONFIG=~/.k3d/kubeconfig-cluster2.yaml kubectl apply -f sample/orig/cluster2/
 ```
 
 You can test the application in a browser [here](http://localhost:8080)

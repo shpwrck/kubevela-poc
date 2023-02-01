@@ -1,0 +1,20 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ComponentDefinition
+metadata:
+  annotations:
+    definition.oam.dev/example-url: "https://docs.solo.io/gloo-mesh-enterprise/latest/reference/api/workspace/"
+    definition.oam.dev/description: "Workspace Wrapper"
+  name: workspace
+  namespace: vela-system
+spec:
+  schematic:
+    cue:
+      template: "output: {\n\tapiVersion: \"admin.gloo.solo.io/v2\"\n\tkind:       \"Workspace\"\n\tmetadata:
+        {\n\t\tname:      context.name\n\t\tnamespace: \"gloo-mesh\"\n\t}\n\tspec:
+        workloadClusters: parameter.workloadClusters\n}\noutputs: {}\nparameter: workloadClusters:
+        [...{\n\tname: string\n\tnamespace: [...{\n\t\tname: string\n\t}]\n}]\n"
+  workload:
+    definition:
+      apiVersion: admin.gloo.solo.io/v2
+      kind: Workspace
+    type: workspaces.admin.gloo.solo.io

@@ -1,0 +1,22 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: kubernetescluster
+spec:
+  components:
+    - name: cluster1
+      type: kubernetescluster
+      properties: {}
+    - name: cluster2
+      type: kubernetescluster
+      properties: {}
+# Include For Pre-existing Resources
+  policies:
+    - type: take-over
+      name: take-over
+      properties:
+        rules:
+          - selector:
+              componentNames:
+                - cluster1
+                - cluster2

@@ -96,7 +96,7 @@ do
 done
 
 # Install Istio and Gloo Mesh Resources
-kubectl --kubeconfig ${MGMT} apply -f ./00-setup/apps/
+# kubectl --kubeconfig ${MGMT} apply -f ./00-setup/apps/
 
 # PRINT KUBECONFIG COMMAND
 echo "KUBECONFIG=$MGMT:$CLUSTER1:$CLUSTER2 k9s"

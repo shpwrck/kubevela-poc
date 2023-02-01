@@ -1,0 +1,17 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ComponentDefinition
+metadata:
+  name: kubernetescluster
+  namespace: vela-system
+spec:
+  schematic:
+    cue:
+      template: "output: {\n\tapiVersion: \"admin.gloo.solo.io/v2\"\n\tkind:       \"KubernetesCluster\"\n\tmetadata:
+        {\n\t\tname:      context.name\n\t\tnamespace: \"gloo-mesh\"\n\t}\n\tspec:
+        clusterDomain: \"cluster.local\"\n}\noutputs: {}\nparameter: clusterDomain:
+        *\"cluster.local\" | string\n"
+  workload:
+    definition:
+      apiVersion: admin.gloo.solo.io/v2
+      kind: KubernetesCluster
+    type: kubernetesclusters.admin.gloo.solo.io
