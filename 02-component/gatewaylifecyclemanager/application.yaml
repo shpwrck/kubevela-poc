@@ -1,9 +1,107 @@
 apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
-  name: gatewaylifecyclemanager
+  name: gateways
 spec:
   components:
-    - name: gatewaylifecyclemanager
+    - name: ingress
       type: gatewaylifecyclemanager
       properties:
+        installations:
+          - clusters:
+            - name: cluster1
+              activeGateway: true
+            - name: cluster2
+              activeGateway: true
+            gatewayRevision: 1-16
+            controlPlaneRevision: 1-16
+            istioOperatorSpec:
+              profile: empty
+              hub: us-docker.pkg.dev/gloo-mesh/istio-workshops
+              tag: 1.16.0-solo
+              components:
+                ingressGateways:
+                  - name: istio-ingressgateway
+                    namespace: istio-gateways
+                    enabled: true
+                    label:
+                      istio: ingressgateway
+                      revision: 1-16
+                    k8s:
+                      podAnnotations:
+                        revision: 1-16
+                      service:
+                        type: LoadBalancer
+                        ports:
+                        - name: http2
+                          port: 80
+                          targetPort: 8080
+                        - name: https
+                          port: 443
+                          targetPort: 8443
+    - name: cluster1-eastwest
+      type: gatewaylifecyclemanager
+      properties:
+        installations:
+          - clusters:
+            - name: cluster1
+              activeGateway: true
+            gatewayRevision: 1-16
+            controlPlaneRevision: 1-16
+            istioOperatorSpec:
+              profile: empty
+              hub: us-docker.pkg.dev/gloo-mesh/istio-workshops
+              tag: 1.16.0-solo
+              components:
+                ingressGateways:
+                  - name: istio-eastwestgateway
+                    namespace: istio-gateways
+                    enabled: true
+                    label:
+                      istio: eastwestgateway
+                      topology.istio.io/network: cluster1
+                    k8s:
+                      service:
+                        type: LoadBalancer
+                        ports:
+                        - name: tls
+                          port: 15443
+                          targetPort: 15443
+                      env:
+                        - name: ISTIO_META_ROUTER_MODE
+                          value: "sni-dnat"
+                        - name: ISTIO_META_REQUESTED_NETWORK_VIEW
+                          value: cluster1
+    - name: cluster2-eastwest
+      type: gatewaylifecyclemanager
+      properties:
+        installations:
+          - clusters:
+            - name: cluster2
+              activeGateway: true
+            gatewayRevision: 1-16
+            controlPlaneRevision: 1-16
+            istioOperatorSpec:
+              profile: empty
+              hub: us-docker.pkg.dev/gloo-mesh/istio-workshops
+              tag: 1.16.0-solo
+              components:
+                ingressGateways:
+                  - name: istio-eastwestgateway
+                    namespace: istio-gateways
+                    enabled: true
+                    label:
+                      istio: eastwestgateway
+                      topology.istio.io/network: cluster2
+                    k8s:
+                      service:
+                        type: LoadBalancer
+                        ports:
+                        - name: tls
+                          port: 15443
+                          targetPort: 15443
+                      env:
+                        - name: ISTIO_META_ROUTER_MODE
+                          value: "sni-dnat"
+                        - name: ISTIO_META_REQUESTED_NETWORK_VIEW
+                          value: cluster2

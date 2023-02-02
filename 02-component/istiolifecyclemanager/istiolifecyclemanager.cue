@@ -37,12 +37,12 @@ template: {
         installations: istioOperatorSpec: meshConfig: *{
             accessLogFile: "/dev/stdout"
             accessLogEncoding: "JSON"
-            enableTracing: "true"
+            enableTracing: true
             defaultConfig: { proxyMetadata: { ISTIO_META_DNS_CAPTURE: "true", ISTIO_META_DNS_AUTO_ALLOCATE: "true" } }
             outboundTrafficPolicy: { mode: "REGISTRY_ONLY"}
         } | {...}
         installations: istioOperatorSpec: values: *{
-            global: { proxy: { privileged: "true" } }
+            global: { proxy: { privileged: true } }
         } | {...}
         installations: istioOperatorSpec: components: *{
             ingressGateways: [ { name: "istio-ingressgateway", enabled: false } ]

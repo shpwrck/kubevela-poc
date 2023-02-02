@@ -16,11 +16,11 @@ spec:
         | string\n\tinstallations: istioOperatorSpec: tag:        string\n\tinstallations:
         istioOperatorSpec: namespace:  *\"istio-system\" | string\n\tinstallations:
         istioOperatorSpec: meshConfig: *{\n\t\taccessLogFile:                                         \"/dev/stdout\"\n\t\taccessLogEncoding:
-        \                                    \"JSON\"\n\t\tenableTracing:                                         \"true\"\n\t\tdefaultConfig:
+        \                                    \"JSON\"\n\t\tenableTracing:                                         true\n\t\tdefaultConfig:
         proxyMetadata: {ISTIO_META_DNS_CAPTURE: \"true\", ISTIO_META_DNS_AUTO_ALLOCATE:
         \"true\"}\n\t\toutboundTrafficPolicy: mode: \"REGISTRY_ONLY\"\n\t} | {...}\n\tinstallations:
-        istioOperatorSpec: values: *{\n\t\tglobal: proxy: privileged: \"true\"\n\t}
-        | {...}\n\tinstallations: istioOperatorSpec: components: *{\n\t\tingressGateways:
+        istioOperatorSpec: values: *{\n\t\tglobal: proxy: privileged: true\n\t} |
+        {...}\n\tinstallations: istioOperatorSpec: components: *{\n\t\tingressGateways:
         [ {name: \"istio-ingressgateway\", enabled: false}]\n\t\tpilot: k8s: env:
         [{name: \"PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES\", value: \"false\"}]\n\t}
         | {...}\n\tinstallations: revision: string\n}\n"
