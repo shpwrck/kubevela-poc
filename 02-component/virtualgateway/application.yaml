@@ -7,3 +7,17 @@ spec:
     - name: virtualgateway
       type: virtualgateway
       properties:
+        workloads:
+          - selector:
+              labels:
+                istio: ingressgateway
+              cluster: cluster1
+              namespace: istio-gateways
+        listeners:
+          - http: {}
+            port:
+              number: 80
+            allowedRouteTables:
+              - host: '*'
+                selector:
+                  workspace: all

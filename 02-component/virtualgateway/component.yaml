@@ -1,0 +1,18 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ComponentDefinition
+metadata:
+  name: virtualgateway
+  namespace: vela-system
+spec:
+  schematic:
+    cue:
+      template: "output: {\n\tapiVersion: \"networking.gloo.solo.io/v2\"\n\tkind:
+        \      \"VirtualGateway\"\n\tmetadata: {\n\t\tname:      context.name\n\t\tnamespace:
+        context.namespace\n\t}\n\tspec: {\n\t\tlisteners: parameter.listeners\n\t\tworkloads:
+        parameter.workloads\n\t}\n}\noutputs: {}\nparameter: {\n\tlisteners: [...]\n\tworkloads:
+        [...]\n}\n"
+  workload:
+    definition:
+      apiVersion: networking.gloo.solo.io/v2
+      kind: VirtualGateway
+    type: virtualgateways.networking.gloo.solo.io

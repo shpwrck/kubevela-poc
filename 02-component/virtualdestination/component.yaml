@@ -1,0 +1,18 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ComponentDefinition
+metadata:
+  name: virtualdestination
+  namespace: vela-system
+spec:
+  schematic:
+    cue:
+      template: "output: {\n\tapiVersion: \"networking.gloo.solo.io/v2\"\n\tkind:
+        \      \"VirtualDestination\"\n\tmetadata: {\n\t\tname:      \"checkout\"\n\t\tnamespace:
+        \"gloo-mesh\"\n\t}\n\tspec: {\n\t\thosts:    parameter.hosts\n\t\tports:    parameter.ports\n\t\tservices:
+        parameter.services\n\t}\n}\noutputs: {}\nparameter: {\n\tclientMode?: {...}\n\texternalServices?:
+        [...]\n\thosts: [...string]\n\tports: [...{}]\n\tservices: [...{}]\n}\n"
+  workload:
+    definition:
+      apiVersion: networking.gloo.solo.io/v2
+      kind: VirtualDestination
+    type: virtualdestinations.networking.gloo.solo.io
