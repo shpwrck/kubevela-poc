@@ -1,0 +1,31 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ComponentDefinition
+metadata:
+  name: istiolifecyclemanager
+  namespace: vela-system
+spec:
+  schematic:
+    cue:
+      template: "output: {\n\tapiVersion: \"admin.gloo.solo.io/v2\"\n\tkind:       \"IstioLifecycleManager\"\n\tmetadata:
+        {\n\t\tname:      context.name\n\t\tnamespace: \"gloo-mesh\"\n\t}\n\tspec:
+        installations: [{\n\t\tclusters:          parameter.installations.clusters\n\t\tistioOperatorSpec:
+        parameter.installations.istioOperatorSpec\n\t\trevision:          parameter.installations.revision\n\t}]\n}\noutputs:
+        {}\nparameter: {\n\tinstallations: clusters: [...{\n\t\tname:            string\n\t\tdefaultRevision:
+        *false | bool\n\t}]\n\tinstallations: istioOperatorSpec: profile:    *\"minimal\"
+        | string\n\tinstallations: istioOperatorSpec: hub:        *\"us-docker.pkg.dev/gloo-mesh/istio-workshops\"
+        | string\n\tinstallations: istioOperatorSpec: tag:        string\n\tinstallations:
+        istioOperatorSpec: namespace:  *\"istio-system\" | string\n\tinstallations:
+        istioOperatorSpec: meshConfig: *{\n\t\taccessLogFile:                                         \"/dev/stdout\"\n\t\taccessLogEncoding:
+        \                                    \"JSON\"\n\t\tenableTracing:                                         \"true\"\n\t\tdefaultConfig:
+        proxyMetadata: {ISTIO_META_DNS_CAPTURE: \"true\", ISTIO_META_DNS_AUTO_ALLOCATE:
+        \"true\"}\n\t\toutboundTrafficPolicy: mode: \"REGISTRY_ONLY\"\n\t} | {...}\n\tinstallations:
+        istioOperatorSpec: values: *{\n\t\tglobal: proxy: privileged: \"true\"\n\t}
+        | {...}\n\tinstallations: istioOperatorSpec: components: *{\n\t\tingressGateways:
+        [ {name: \"istio-ingressgateway\", enabled: false}]\n\t\tpilot: k8s: env:
+        [{name: \"PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES\", value: \"false\"}]\n\t}
+        | {...}\n\tinstallations: revision: string\n}\n"
+  workload:
+    definition:
+      apiVersion: admin.gloo.solo.io/v2
+      kind: IstioLifecycleManager
+    type: istiolifecyclemanagers.admin.gloo.solo.io

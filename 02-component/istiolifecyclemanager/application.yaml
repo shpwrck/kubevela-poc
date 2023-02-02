@@ -1,0 +1,16 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: istiolifecyclemanager
+spec:
+  components:
+    - name: istiolifecyclemanager
+      type: istiolifecyclemanager
+      properties:
+        installations:
+          clusters:
+          - name: "cluster1"
+          - name: "cluster2"
+          revision: 1-16
+          istioOperatorSpec:
+            tag: 1.16.0-solo

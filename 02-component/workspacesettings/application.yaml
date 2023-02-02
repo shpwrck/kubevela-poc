@@ -6,17 +6,4 @@ spec:
   components:
     - name: workspacesettings
       type: workspacesettings
-      properties:
-        exportTo:
-          resources: 
-            - name: "*"
-          workspaces: 
-            - name: "*"
-        importFrom:
-          resources:
-            - name: "*"
-          workspaces: 
-            - name: "*"
-        eastWestGateways:
-          - selector:
-              - name: "*"
+      properties: {}

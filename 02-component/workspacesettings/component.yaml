@@ -7,15 +7,12 @@ spec:
   schematic:
     cue:
       template: "output: {\n\tapiVersion: \"admin.gloo.solo.io/v2\"\n\tkind:       \"WorkspaceSettings\"\n\tmetadata:
-        {\n\t\tname:      \"default\"\n\t\tnamespace: \"default\"\n\t}\n\tspec: {\n\t\texportTo:
-        [{\n\t\t\tresources:  parameter.exportTo.resources\n\t\t\tworkspaces: parameter.exportTo.workspaces\n\t\t}]\n\t\timportFrom:
-        [{\n\t\t\tresources:  parameter.importFrom.resources\n\t\t\tworkspaces: parameter.importFrom.workspaces\n\t\t}]\n\t\toptions:
-        {\n\t\t\teastWestGateways: [{\n\t\t\t\tselector: name: parameter.eastWestGateways.selector.name\n\t\t\t}]\n\t\t\tfederation:
-        enabled: parameter.federation.enabled\n\t\t\tserviceIsolation: {\n\t\t\t\tenabled:
-        \        parameter.serviceIsolation.enabled\n\t\t\t\ttrimProxyConfig: parameter.serviceIsolation.trimProxyConfig\n\t\t\t}\n\t\t}\n\t}\n}\noutputs:
-        {}\nparameter: {\n\texportTo: resources: [...{}]\n\tworkspaces: [...{}]\n\timportFrom:
-        resources: [...{}]\n\tworkspaces: [...{}]\n\teastWestGateways: selector: [...{}]\n\tfederation:
-        enabled:       *false | bool\n\tserviceIsolation: enabled: *true | bool\n\ttrimProxyConfig:
+        {\n\t\tname:      context.name\n\t\tnamespace: context.namespace\n\t}\n\tspec:
+        {\n\t\texportTo:   parameter.exportTo\n\t\timportFrom: parameter.importFrom\n\t\toptions:
+        \   parameter.options\n\t}\n}\noutputs: {}\nparameter: {\n\texportTo:         *[]
+        | [...]\n\timportFrom:       *[] | [...]\n\teastWestGateways: *[] | [...]\n\toptions:
+        federation: enabled:               *false | bool\n\toptions: serviceIsolation:
+        enabled:         *true | bool\n\toptions: serviceIsolation: trimProxyConfig:
         *true | bool\n}\n"
   workload:
     definition:

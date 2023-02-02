@@ -1,0 +1,13 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: roottrustpolicy
+spec:
+  components:
+    - name: roottrustpolicy
+      type: roottrustpolicy
+      properties:
+        config:
+          mgmtServerCa:
+            generated: {}
+          autoRestartPods: true
