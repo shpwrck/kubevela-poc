@@ -1,0 +1,24 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ComponentDefinition
+metadata:
+  name: routetable
+  namespace: vela-system
+spec:
+  schematic:
+    cue:
+      template: "output: {\n\tapiVersion: \"networking.gloo.solo.io/v2\"\n\tkind:
+        \      \"RouteTable\"\n\tmetadata: {\n\t\tname:      context.name\n\t\tnamespace:
+        context.namespace\n\t}\n\tspec: {\n\t\thttp: parameter.http\n\t\tif parameter[\"defaultDestination\"]
+        != _|_ {\n\t\t\tdefaultDestination: parameter.defaultDestination\n\t\t}\n\t\tif
+        parameter[\"hosts\"] != _|_ {\n\t\t\thosts: parameter.hosts\n\t\t}\n\t\tif
+        parameter[\"virtualGateways\"] != _|_ {\n\t\t\tvirtualGateways: parameter.virtualGateways\n\t\t}\n\t\tif
+        parameter[\"weight\"] != _|_ {\n\t\t\tweight: parameter.weight\n\t\t}\n\t\tif
+        parameter[\"workloadSelectors\"] != _|_ {\n\t\t\tworkloadSelectors: parameter.workloadSelectors\n\t\t}\n\t}\n}\noutputs:
+        {}\nparameter: {\n\tdefaultDestination?: {...}\n\thosts?: [...string]\n\thttp:
+        [...{...}]\n\tvirtualGateways?: [...{...}]\n\tweight?: int\n\tworkloadSelectors?:
+        [...]\n}\n"
+  workload:
+    definition:
+      apiVersion: networking.gloo.solo.io/v2
+      kind: RouteTable
+    type: routetables.networking.gloo.solo.io
