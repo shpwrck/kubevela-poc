@@ -8,7 +8,7 @@ spec:
     cue:
       template: "output: {\n\tapiVersion: \"networking.gloo.solo.io/v2\"\n\tkind:
         \      \"VirtualDestination\"\n\tmetadata: {\n\t\tname:      context.name\n\t\tnamespace:
-        \"gloo-mesh\"\n\t}\n\tspec: {\n\t\thosts:    parameter.hosts\n\t\tports:    parameter.ports\n\t\tservices:
+        context.namespace\n\t}\n\tspec: {\n\t\thosts:    parameter.hosts\n\t\tports:    parameter.ports\n\t\tservices:
         parameter.services\n\t}\n}\noutputs: {}\nparameter: {\n\tclientMode?: {...}\n\texternalServices?:
         [...]\n\thosts: [...string]\n\tports: [...{}]\n\tservices: [...{}]\n}\n"
   workload:
