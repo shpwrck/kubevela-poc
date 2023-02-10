@@ -15,8 +15,8 @@ template: {
 		apiVersion: "networking.gloo.solo.io/v2"
 		kind:       "VirtualDestination"
 		metadata: {
-			name:      "checkout"
-			namespace: "gloo-mesh"
+			name:      context.name
+			namespace: context.namespace
 		}
 		spec: {
 			hosts: parameter.hosts
